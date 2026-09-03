@@ -1,6 +1,6 @@
 # Configure Ansible Server and hosts 
 ```
-git clone https://github.com/atulkamble/aws-ansible-terraform-webservers.git
+git clone https://github.com/atulkamble/ansible-terraform-webservers.git
 cd aws-ansible-terraform-webservers/terraform
 terraform init 
 terraform plan
