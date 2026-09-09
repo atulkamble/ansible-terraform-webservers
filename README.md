@@ -57,6 +57,7 @@ ansible-playbook -vvvv ping.yml
 ansible-playbook -i inventory/hosts playbooks/nginx.yml
 ansible-playbook -i inventory/hosts playbooks/apache.yml
 ```
+# apache
 ```
 sudo nano playbooks/apache.yml
 ```
@@ -118,6 +119,60 @@ cat /etc/passwd
 cat /etc/group
 cd ..
 ls -la
+```
+# mysql
+```
+sudo nano playbooks/mysql.yml 
+```
+```
+---
+- name: Install MySQL on Amazon Linux
+  hosts: db
+  become: yes
+
+  tasks:
+    - name: Install MariaDB server
+      dnf:
+        name: mariadb105-server
+        state: present
+
+    - name: Start MariaDB service
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Check MariaDB status
+      command: systemctl is-active mariadb
+      register: mysql_status
+      changed_when: false
+
+    - name: Display status
+      debug:
+        msg: "MariaDB status: {{ mysql_status.stdout }}"
+```
+```
+sudo nano /etc/ansible/inventory/hosts
+```
+```
+[db]
+```
+// server 
+```
+ansible-playbook -vvvv ping.yml
+ansible-playbook --syntax-check playbooks/mysql.yml
+ansible-playbook -i inventory/hosts playbooks/mysql.yml
+ansible-playbook -i inventory/hosts playbooks/mysql.yml -v
+ansible-playbook -i inventory/hosts playbooks/mysql.yml -vv
+ansible-playbook -i inventory/hosts playbooks/mysql.yml -vvv
+ansible-playbook -i inventory/hosts playbooks/mysql.yml -vvvv
+```
+// host 
+```
+ss -tuln
+mariadb --version
+pidof mariadbd
+which mariadb
 ```
 ## Ansible Playbook Verbosity Levels
 
