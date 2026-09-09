@@ -1,12 +1,12 @@
 ---
 - name: Install and configure Nginx on Amazon Linux 2023 EC2 instances
-  hosts: webservers
+  hosts: web
   become: yes
 
   tasks:
     - name: Update all system packages
       dnf:
-        name: '*'
+        name: "*"
         state: latest
         update_cache: yes
 
@@ -27,4 +27,4 @@
         dest: /usr/share/nginx/html/index.html
         owner: nginx
         group: nginx
-        mode: '0644'
+        mode: "0644"
