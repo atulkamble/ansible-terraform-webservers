@@ -57,6 +57,68 @@ ansible-playbook -vvvv ping.yml
 ansible-playbook -i inventory/hosts playbooks/nginx.yml
 ansible-playbook -i inventory/hosts playbooks/apache.yml
 ```
+```
+sudo nano playbooks/apache.yml
+```
+```
+---
+- name: Install and configure Apache web server on Amazon Linux
+  hosts: web
+  become: yes
+  tasks:
+    - name: Update yum cache
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+
+    - name: Install Apache (httpd)
+      yum:
+        name: httpd
+        state: present
+
+    - name: Ensure Apache is running and enabled at boot
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Deploy a basic index.html
+      copy:
+        content: "<html><body><h1>Apache is working on EC2!</h1></body></html>"
+        dest: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: '0755'
+```
+```
+/etc/ansible/inventory/hosts
+```
+```
+[web]
+```
+// server 
+```
+ansible-playbook -vvvv ping.yml
+ansible-playbook --syntax-check playbooks/apache.yml
+ansible-playbook -i inventory/hosts playbooks/apache.yml
+ansible-playbook -i inventory/hosts playbooks/apache.yml -v
+ansible-playbook -i inventory/hosts playbooks/apache.yml -vv
+ansible-playbook -i inventory/hosts playbooks/apache.yml -vvv
+ansible-playbook -i inventory/hosts playbooks/apache.yml -vvvv
+```
+// host 
+```
+ss -tuln
+cd /var/www/html/
+ls
+cat index.html 
+sudo systemctl status httpd
+cat /etc/passwd
+cat /etc/group
+cd ..
+ls -la
+```
 ## Ansible Playbook Verbosity Levels
 
 | Command                           | Verbosity Level | What It Shows                                                         |
