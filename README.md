@@ -57,3 +57,26 @@ ansible-playbook -vvvv ping.yml
 ansible-playbook -i inventory/hosts playbooks/nginx.yml
 ansible-playbook -i inventory/hosts playbooks/apache.yml
 ```
+## Ansible Playbook Verbosity Levels
+
+| Command                           | Verbosity Level | What It Shows                                                         |
+| --------------------------------- | --------------- | --------------------------------------------------------------------- |
+| `ansible-playbook site.yml -v`    | **Level 1**     | Standard task results, clean `stdout`, and `stderr`.                  |
+| `ansible-playbook site.yml -vv`   | **Level 2**     | Task results plus input parameters passed to modules.                 |
+| `ansible-playbook site.yml -vvv`  | **Level 3**     | Connection details, remote paths, and Python interpreter information. |
+| `ansible-playbook site.yml -vvvv` | **Level 4**     | Detailed SSH connection debugging for deep troubleshooting.           |
+
+### Quick Understanding
+
+* **`-v`** → Basic verbose output
+* **`-vv`** → More module/task details
+* **`-vvv`** → Connection and execution details
+* **`-vvvv`** → Full connection/SSH troubleshooting
+
+### Example
+
+```bash
+ansible-playbook site.yml -vvv
+```
+
+**Tip:** For most Ansible troubleshooting, start with **`-vvv`**. Use **`-vvvv`** when diagnosing SSH or connection problems.
