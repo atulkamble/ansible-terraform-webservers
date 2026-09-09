@@ -1,0 +1,25 @@
+---
+- name: Install MySQL on Amazon Linux
+  hosts: db
+  become: yes
+
+  tasks:
+    - name: Install MariaDB server
+      dnf:
+        name: mariadb105-server
+        state: present
+
+    - name: Start MariaDB service
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Check MariaDB status
+      command: systemctl is-active mariadb
+      register: mysql_status
+      changed_when: false
+
+    - name: Display status
+      debug:
+        msg: "MariaDB status: {{ mysql_status.stdout }}"
