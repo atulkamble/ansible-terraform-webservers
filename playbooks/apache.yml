@@ -1,6 +1,6 @@
 ---
 - name: Install and configure Apache web server on Amazon Linux
-  hosts: webservers-apache
+  hosts: web
   become: yes
   tasks:
     - name: Update yum cache
@@ -26,4 +26,4 @@
         dest: /var/www/html/index.html
         owner: apache
         group: apache
-        mode: '0644'
+        mode: '0755'
